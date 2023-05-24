@@ -1,20 +1,22 @@
 import datetime
-
+end_time =  None
+start_time = None
 class Parking_record:
     def __init__(self):
         self.weekday = 15               # 平日停車費率(30m)
         self.weekend = 20               # 週末停車費率(30m)
         self.weekday_max = 300          # 平日最高收費
         self.weekend_max = 420          # 週末最高收費
-        self.start_time = None
+        
 
     def start_parking(self):
-        self.start_time = datetime.datetime.now()
+        start_time = datetime.datetime.now()
+        
 
     def end_parking(self):
-        end_time = datetime.datetime.now()
-        parking_duration = end_time - self.start_time
-        parking_minutes = parking_duration.total_seconds() / 60
+        
+        parking_duration = end_time - start_time
+        parking_minutes = round(parking_duration.total_seconds() / 60)
 
         if end_time.weekday() < 5:       # 平日
             parking_rate = self.weekday
@@ -41,10 +43,17 @@ class CoinPaymentMachine:
         self.total_amount = 0
 
     def make_payment(self):
-        parking_fee = self.parking_lot.end_parking()
+        parking_fee = parking.end_parking()
         if self.total_amount >= parking_fee:
             change = self.total_amount - parking_fee
             self.total_amount = 0
             return parking_fee, change
         else:
-            return None, None
+            return None,None
+
+
+parking = Parking_record()
+payment_machine = CoinPaymentMachine(parking)
+
+
+
